@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Registration</title>
+</head>
+<body>
+
+<h1>User Registration</h1>
+
+<form id="registrationForm">
+  <label for="username">username:</label><br>
+  <input type="text" id="username" name="username" required><br>
+  
+  <label for="email">Email:</label><br>
+  <input type="email" id="email" name="email" required><br>
+  
+  <label for="password">Password:</label><br>
+  <input type="password" id="password" name="password" required><br>
+  
+  
+  
+  <!-- You can include additional fields for credentials if needed -->
+
+  <input type="submit" value="Register">
+</form>
+
+<script>
+document.getElementById('registrationForm').addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  try {
+    const formData = {
+      name: document.getElementById('username').value,
+      email: document.getElementById('email').value,
+      password: document.getElementById('password').value,
+      // Add additional fields for credentials as needed
+    };
+
+    const response = await fetch('http://localhost:3000/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+
+    if (response.ok) {
+      alert('User registered successfully');
+      // Optionally redirect to another page after successful registration
+    } else {
+      const errorData = await response.json();
+      alert(`Registration failed: ${errorData.error}`);
+    }
+  } catch (error) {
+    console.error('Error registering user:', error);
+    alert('Registration failed. Please try again later.');
+  }
+});
+
+</script>
+
+</body>
+</html>
