@@ -10,7 +10,7 @@
 <h1>User Registration</h1>
 
 <form id="registrationForm">
-  <label for="username">username:</label><br>
+  <label for="username">Username:</label><br>
   <input type="text" id="username" name="username" required><br>
   
   <label for="email">Email:</label><br>
@@ -19,12 +19,11 @@
   <label for="password">Password:</label><br>
   <input type="password" id="password" name="password" required><br>
   
-  
-  
-  <!-- You can include additional fields for credentials if needed -->
 
+  
   <input type="submit" value="Register">
 </form>
+
 
 <script>
 document.getElementById('registrationForm').addEventListener('submit', async (event) => {
@@ -32,10 +31,10 @@ document.getElementById('registrationForm').addEventListener('submit', async (ev
 
   try {
     const formData = {
-      name: document.getElementById('username').value,
+      username: document.getElementById('username').value,
       email: document.getElementById('email').value,
       password: document.getElementById('password').value,
-      // Add additional fields for credentials as needed
+      events: []
     };
 
     const response = await fetch('http://localhost:3000/register', {
@@ -48,7 +47,7 @@ document.getElementById('registrationForm').addEventListener('submit', async (ev
 
     if (response.ok) {
       alert('User registered successfully');
-      // Optionally redirect to another page after successful registration
+      window.location.href = 'login.html'; // Redirect to login page
     } else {
       const errorData = await response.json();
       alert(`Registration failed: ${errorData.error}`);
