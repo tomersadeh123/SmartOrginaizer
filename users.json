@@ -1,20 +1,43 @@
 [
   {
-    "username": "tomer",
-    "email": "tomersadeh@gmail.com",
-    "password": "2434324"
-  },
-  {
+    "username": "tomersad",
     "email": "tomersadeh@gmailc.om",
-    "password": "sghdfgh"
-  },
-  {
-    "username": "tomerghfghfghf",
-    "email": "tomersadedfgdfgh@gmail.com",
-    "password": "24343244534435345"
-  },
-  {
-    "email": "tomersadeh22@gmailc.om",
-    "password": "sdfdf"
+    "password": "Jenny",
+    "events": [
+      [
+        {
+          "kind": "calendar#event",
+          "etag": "\"3427228663238000\"",
+          "id": "21b7p03ft59b87bos7qi0fkqio",
+          "status": "confirmed",
+          "htmlLink": "https://www.google.com/calendar/event?eid=MjFiN3AwM2Z0NTliODdib3M3cWkwZmtxaW8gdG9tZXJzYWRlaDdAbQ",
+          "created": "2024-04-16T09:28:43.000Z",
+          "updated": "2024-04-20T11:58:51.619Z",
+          "summary": "bbbb",
+          "creator": {
+            "email": "tomersadeh7@gmail.com",
+            "self": true
+          },
+          "organizer": {
+            "email": "tomersadeh7@gmail.com",
+            "self": true
+          },
+          "start": {
+            "dateTime": "2024-04-20T19:15:00+03:00",
+            "timeZone": "Asia/Jerusalem"
+          },
+          "end": {
+            "dateTime": "2024-04-21T00:15:00+03:00",
+            "timeZone": "Asia/Jerusalem"
+          },
+          "iCalUID": "21b7p03ft59b87bos7qi0fkqio@google.com",
+          "sequence": 4,
+          "reminders": {
+            "useDefault": true
+          },
+          "eventType": "default"
+        }
+      ]
+    ]
   }
 ]

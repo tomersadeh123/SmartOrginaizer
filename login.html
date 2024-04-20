@@ -19,7 +19,12 @@
   <input type="submit" value="Login">
 </form>
 
-<a href="http://localhost:3000/auth/google">Login with Google</a>
+<p>please click to get events before log in </p style>
+  <!-- Hidden input field to store events data -->
+  <input type="hidden" id="eventsData" name="eventsData">
+  <button id="getEventsBtn">Get Events</button>
+<div id="eventsList"></div>
+
 
 <script>
 document.getElementById('loginForm').addEventListener('submit', async (event) => {
@@ -51,6 +56,28 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
     alert('Login failed. Please try again later.');
   }
 });
+
+document.getElementById('getEventsBtn').addEventListener('click', async () => {
+  try {
+    const response = await fetch('http://localhost:3000/events');
+    const eventData = await response.json();
+    const eventsList = document.getElementById('eventsList');
+    eventsList.innerHTML = ''; // Clear previous events
+
+    eventData.events.forEach(event => {
+      const eventItem = document.createElement('div');
+      eventItem.textContent = `${event.summary} - ${event.start.dateTime}`;
+      eventsList.appendChild(eventItem);
+    });
+
+    // Store events data in hidden input field
+    document.getElementById('eventsData').value = JSON.stringify(eventData.events);
+  } catch (error) {
+    console.error('Error fetching events:', error);
+  }
+});
+
+
 </script>
 
 </body>

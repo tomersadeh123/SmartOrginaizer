@@ -81,11 +81,9 @@ async function authorize() {
 }
 
 
-// Route handler for user registration
 app.post('/register', async (req, res) => {
   try {
-    // Extract user data from request body
-    const {username, email, password} = req.body;
+    const { username, email, password} = req.body;
 
     // Read existing user data
     let usersData = [];
@@ -96,14 +94,19 @@ app.post('/register', async (req, res) => {
       // Ignore if the file doesn't exist or is empty
     }
 
-    // Check if the email is already registered
+    // Check for existing user
     const existingUser = usersData.find(user => user.email === email);
     if (existingUser) {
       return res.status(400).json({ error: 'Email is already registered' });
     }
 
-    // Add new user to the array
-    const newUser = {username, email, password};
+    // Add new user with events
+    const newUser = {
+      username,
+      email,
+      password,
+      events:[]
+    };
     usersData.push(newUser);
 
     // Write updated user data to the file
@@ -115,130 +118,76 @@ app.post('/register', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-async function listEvents(auth) {
-  try {
-    console.log('y'); // Corrected typo
-    const calendar = google.calendar({ version: 'v3', auth });
-    console.log('y');
-    const res = await calendar.events.list({
-      calendarId: 'primary',
-      timeMin: new Date().toISOString(),
-      maxResults: 10,
-      singleEvents: true,
-      orderBy: 'startTime',
-    });
-    
-    const events = res.data.items;
-    if (!events || events.length === 0) {
-      return 'No upcoming events found.';
-    }
 
-    const eventDetails = events.map((event, i) => {
-      const start = event.start.dateTime || event.start.date;
-      return `${start} - ${event.summary}`;
-    });
-    return eventDetails.join('\n');
-  } catch (err) {
-    console.error('Error listing events:', err.message);
-    throw err;
-  }
-}
-
+// Route handler for retrieving events
 // Route handler for retrieving events
 app.get('/events', async (req, res) => {
   try {
     const auth = await authorize();
-    const eventsText = await listEvents(auth);
-    res.send(eventsText);
+    const events = await listEvents(auth);
+
+    // Convert events data to JSON string
+    const eventsJSON = JSON.stringify(events);
+
+    res.json({ events: eventsJSON }); // Send events data as a JSON string
   } catch (err) {
     console.error('Error fetching events:', err);
-    res.status(500).send('Error fetching events');
+    res.status(500).json({ error: 'Error fetching events' });
   }
 });
+
 
 
 // Route handler for user login
 app.post('/login', async (req, res) => {
   try {
-    const { username, password, calendarToken } = req.body;
+    const { username, password } = req.body;
 
     // Read user data from the file
-    const usersData = JSON.parse(await fs.readFile(USERS_DATA_PATH, 'utf8'));
+    let usersData = JSON.parse(await fs.readFile(USERS_DATA_PATH, 'utf8'));
 
     // Find the user with the provided username and password
-    const user = usersData.find(user => user.username === username && user.password === password);
-    if (!user) {
+    const userIndex = usersData.findIndex(
+      (user) => user.username === username && user.password === password
+    );
+    if (userIndex === -1) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
 
-    // Verify the provided calendarToken
-    if (user.calendarToken !== calendarToken) {
-      return res.status(401).json({ error: 'Invalid Google Calendar token' });
+    // User is authenticated
+    // Fetch events from API (assuming listEvents returns events data)
+    try {
+      const auth = await authorize();
+      events = await listEvents(auth);
+    } catch (error) {
+      console.error('Error fetching events:', error);
+      return res.status(500).json({ error: 'Error fetching events' });
     }
 
-    // User is authenticated
-    // You can generate a session or token and send it back in the response
+    // Update the user's events data with the fetched events
+    usersData[userIndex].events.push(events)
+
+    // Write updated user data back to the file
+    await fs.writeFile(USERS_DATA_PATH, JSON.stringify(usersData, null, 2));
+
     res.status(200).json({ message: 'Login successful' });
   } catch (error) {
     console.error('Error during login:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-// Route handler for initiating the Google OAuth flow
-app.get('/auth/google', async (req, res) => {
-  try {
-    const authUrl = await generateAuthUrl();
-    res.redirect(authUrl);
-  } catch (err) {
-    console.error('Error generating auth URL:', err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-// Route handler for handling the callback from Google after the user grants permission
-app.get('/auth/google/callback', async (req, res) => {
-  try {
-    const { code } = req.query;
-    const { tokens } = await getAccessTokenFromCode(code);
-
-    // Store the tokens (access token and refresh token) securely for the user
-    // You can store them in a database or a file, associated with the user
-
-    res.redirect('/'); // Redirect to your application's main page
-  } catch (err) {
-    console.error('Error obtaining access token:', err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-
-async function generateAuthUrl() {
-  const oauth2Client = new google.auth.OAuth2(
-    "804947126788-jp4hv0nknvmtd8c0k2mde0pfi9g4mnue.apps.googleusercontent.com",
-    "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",
-    'http://localhost:3000/auth/google/callback'
-  );
-
-  const authUrl = oauth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: SCOPES,
+async function listEvents(auth) {
+  const calendar = google.calendar({ version: 'v3', auth });
+  const response = await calendar.events.list({
+    calendarId: 'primary',
+    timeMin: new Date().toISOString(),
+    maxResults: 10,
+    singleEvents: true,
+    orderBy: 'startTime',
   });
-
-  return authUrl;
+  const events = response.data.items;
+  return events;
 }
-
-async function getAccessTokenFromCode(code) {
-  const oauth2Client = new google.auth.OAuth2(
-    "804947126788-jp4hv0nknvmtd8c0k2mde0pfi9g4mnue.apps.googleusercontent.com",
-    "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",
-    'http://localhost:3000/auth/google/callback'
-  );
-
-  const { tokens } = await oauth2Client.getToken(code);
-  return { tokens };
-}
-
-// ... (existing routes and functions remain the same) ...
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
