@@ -17,7 +17,7 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
   
       if (response.ok) {
         alert('Login successful');
-        window.location.href  = 'freeSlots.html'
+        window.location.href = `freeSlots.html?username=${encodeURIComponent(formData.username)}`;
       } else {
         const errorData = await response.json();
         alert(`Login failed: ${errorData.error}`);

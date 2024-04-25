@@ -6,6 +6,7 @@ const { authenticate } = require('@google-cloud/local-auth');
 const { google } = require('googleapis');
 const cors = require('cors'); // Import cors
 
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -189,6 +190,64 @@ async function listEvents(auth) {
   return events;
 }
 
+app.post('/calculate-free-time', async (req, res) => {
+  try {
+      const { username } = req.body;
+
+      // Read the JSON data from the file
+      let userData = await fs.readFile(USERS_DATA_PATH, 'utf8');
+      let usersData = JSON.parse(userData);
+
+      // Find the user with the provided username
+      const userIndex = usersData.findIndex(user => user.username === username);
+      if (userIndex === -1) {
+          return res.status(404).json({ error: `User with username '${username}' not found` });
+      }
+
+      // Flatten the events array
+      const allEvents = usersData[userIndex].events.flat();
+
+      // Find the start and end dates for the week
+      const currentDate = new Date();
+      const startOfWeek = new Date(currentDate);
+      startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+      startOfWeek.setHours(0, 0, 0, 0);
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(startOfWeek.getDate() + 7);
+
+      // Calculate free time between events within the week
+      const freeTime = [];
+      let previousEventEnd = startOfWeek;
+      for (const event of allEvents) {
+          const currentEventStart = new Date(event.start.dateTime);
+          if (currentEventStart >= endOfWeek) {
+              break; // Stop processing events if we're past the end of the week
+          }
+          const timeDifference = currentEventStart.getTime() - previousEventEnd.getTime();
+          if (timeDifference > 0) {
+              freeTime.push({
+                  start: previousEventEnd.toISOString(),
+                  end: currentEventStart.toISOString(),
+                  duration: timeDifference / (1000 * 60) // Convert milliseconds to minutes
+              });
+          }
+          previousEventEnd = new Date(event.end.dateTime);
+      }
+
+      // Update user's freeTime property
+      usersData[userIndex].freeTime = freeTime;
+
+      // Write updated user data back to the file
+      await fs.writeFile(USERS_DATA_PATH, JSON.stringify(usersData, null, 2));
+
+      res.json({ freeTime });
+  } catch (error) {
+      console.error('Error reading or parsing users data:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+  
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
