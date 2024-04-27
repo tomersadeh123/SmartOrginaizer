@@ -247,6 +247,78 @@ app.post('/calculate-free-time', async (req, res) => {
   }
 });
 
+let groups = []; // Initialize groups array
+
+// Load groups data asynchronously when server starts
+fs.readFile('groups.json')
+    .then(data => {
+        if (data.length > 0) {
+            groups = JSON.parse(data); // Parse JSON data
+        }
+    })
+    .catch(err => {
+        console.error('Error reading groups.json:', err);
+    });
+
+// Route to create a group
+app.post('/groups', async (req, res) => {
+  const { groupName } = req.body;
+
+  // Check if groupName is provided
+  if (!groupName) {
+      return res.status(400).json({ error: 'Group name is required' });
+  }
+
+  try {
+      // Load groups array from file
+      const groupsData = await fs.readFile('groups.json');
+      const groups = JSON.parse(groupsData);
+
+      // Check if groupName already exists
+      const groupExistsIndex = groups.findIndex(group => group.name === groupName);
+      if (groupExistsIndex !== -1) {
+          return res.status(400).json({ error: 'Group name already taken, please try another name' });
+      }
+
+      // If groupName is unique, push the new group into groups array
+      groups.push({ name: groupName, users: [] });
+      await saveGroupsToFile(groups);
+      res.status(201).json({ message: 'Group created successfully' });
+  } catch (error) {
+      console.error('Error creating group:', error);
+      res.status(500).json({ error: 'Failed to create group' });
+  }
+});
+
+
+// Route to add a user to a group
+app.post('/groups/:groupName/users', (req, res) => {
+    const { groupName } = req.params;
+    const { username } = req.body;
+    const group = groups.find(group => group.name === groupName);
+    if (!group) {
+        return res.status(404).json({ error: 'Group not found' });
+    }
+    if (!username) {
+        return res.status(400).json({ error: 'Username is required' });
+    }
+    group.users.push(username);
+    saveGroupsToFile();
+    res.status(201).json({ message: 'User added to group successfully' });
+});
+
+// Function to save groups data to groups.json
+async function saveGroupsToFile(groups) {
+  try {
+      await fs.writeFile('groups.json', JSON.stringify(groups, null, 2));
+      console.log('Groups data saved to groups.json');
+  } catch (error) {
+      console.error('Error saving groups data to groups.json:', error);
+      throw error; // Re-throw the error to be caught by the caller
+  }
+}
+
+
   
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
