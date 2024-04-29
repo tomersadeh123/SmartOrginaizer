@@ -6,6 +6,7 @@ const { authenticate } = require('@google-cloud/local-auth');
 const { google } = require('googleapis');
 const cors = require('cors'); // Import cors
 
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -119,7 +120,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// Route handler for retrieving events
+
 // Route handler for retrieving events
 app.get('/events', async (req, res) => {
   try {
@@ -189,6 +190,163 @@ async function listEvents(auth) {
   return events;
 }
 
+app.post('/calculate-free-time', async (req, res) => {
+  try {
+    const { username } = req.body;
+    // Read the JSON data from the file
+    let userData = await fs.readFile(USERS_DATA_PATH, 'utf8');
+    let usersData = JSON.parse(userData);
+
+    // Find the user with the provided username
+    const userIndex = usersData.findIndex(user => user.username === username);
+    if (userIndex === -1) {
+      return res.status(404).json({ error: `User with username '${username}' not found` });
+    }
+
+    // Flatten the events array
+    const allEvents = usersData[userIndex].events.flat();
+
+    // Get the current date and time in the Israel/Jerusalem time zone
+    const israelTimezone = 'Asia/Jerusalem';
+    const currentDate = moment().tz(israelTimezone);
+    const startOfWeek = currentDate.clone().startOf('day');
+    const endOfWeek = startOfWeek.clone().add(1, 'week');
+
+    // Filter out events that occur within the next week
+    const eventsThisWeek = allEvents.filter(event => {
+      const eventTime = moment(event.start.dateTime).tz(israelTimezone);
+      return eventTime.isBetween(startOfWeek, endOfWeek, null, '[]');
+    });
+
+    // Calculate free time between future events
+    const freeTime = [];
+    let previousEventEnd = startOfWeek.hours(7);
+
+    for (const event of eventsThisWeek) {
+      const currentEventStart = moment(event.start.dateTime).tz(israelTimezone);
+      const timeDifference = currentEventStart.diff(previousEventEnd, 'minutes');
+
+      let adjustedPreviousEventEnd = previousEventEnd.clone();
+      let adjustedCurrentEventStart = currentEventStart.clone();
+
+      // Adjust times to fall within the 7 AM to 9 PM range
+      adjustedPreviousEventEnd = adjustTimes(adjustedPreviousEventEnd, startOfWeek, endOfWeek);
+      adjustedCurrentEventStart = adjustTimes(adjustedCurrentEventStart, startOfWeek, endOfWeek);
+
+      if (timeDifference > 0 && adjustedCurrentEventStart.isAfter(adjustedPreviousEventEnd)) {
+        freeTime.push({
+          start: adjustedPreviousEventEnd.format('YYYY-MM-DDTHH:mm:ss'),
+          end: adjustedCurrentEventStart.format('YYYY-MM-DDTHH:mm:ss'),
+          duration: timeDifference
+        });
+      }
+
+      previousEventEnd = moment(event.end.dateTime).tz(israelTimezone);
+    }
+
+    // Update user's freeTime property
+    usersData[userIndex].freeTime = freeTime;
+
+    // Write updated user data back to the file
+    await fs.writeFile(USERS_DATA_PATH, JSON.stringify(usersData, null, 2));
+    res.json({ freeTime });
+  } catch (error) {
+    console.error('Error reading or parsing users data:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+function adjustTimes(time, startOfWeek, endOfWeek) {
+  if (time.isBefore(startOfWeek.hours(7))) {
+    return startOfWeek.clone().hours(7);
+  } else if (time.isAfter(endOfWeek.hours(7))) {
+    return endOfWeek.clone().hours(21);
+  } else if (time.isAfter(time.clone().startOf('day').hours(21))) {
+    return time.clone().add(1, 'day').hours(7);
+  } else {
+    return time;
+  }
+}
+let groups = []; // Initialize groups array
+
+// Load groups data asynchronously when server starts
+fs.readFile('groups.json')
+    .then(data => {
+        if (data.length > 0) {
+            groups = JSON.parse(data); // Parse JSON data
+        }
+    })
+    .catch(err => {
+        console.error('Error reading groups.json:', err);
+    });
+
+// Route to create a group
+app.post('/groups', async (req, res) => {
+    const { groupName } = req.body;
+
+    // Check if groupName is provided
+    if (!groupName) {
+        return res.status(400).json({ error: 'Group name is required' });
+    }
+
+    try {
+        // Check if groupName already exists
+        const groupExistsIndex = groups.findIndex(group => group.name === groupName);
+        if (groupExistsIndex !== -1) {
+            return res.status(400).json({ error: 'Group name already taken, please try another name' });
+        }
+
+        // If groupName is unique, push the new group into groups array
+        groups.push({ name: groupName, users: [] });
+        await saveGroupsToFile(groups);
+        res.status(201).json({ message: 'Group created successfully' });
+    } catch (error) {
+        console.error('Error creating group:', error);
+        res.status(500).json({ error: 'Failed to create group' });
+    }
+});
+
+async function saveGroupsToFile(groups) {
+    try {
+        await fs.writeFile('groups.json', JSON.stringify(groups, null, 2));
+        console.log('Groups data saved to groups.json');
+    } catch (error) {
+        console.error('Error saving groups data to groups.json:', error);
+        throw error; // Re-throw the error to be caught by the caller
+    }
+}
+
+
+
+// Route to add a user to a group
+app.post('/groups/:groupName/users', (req, res) => {
+  const { groupName } = req.params;
+  const { username } = req.body;
+  const group = groups.find(group => group.name === groupName);
+  if (!group) {
+      return res.status(404).json({ error: 'Group not found' });
+  }
+  if (!username) {
+      return res.status(400).json({ error: 'Username is required' });
+  }
+  group.users.push(username);
+  saveGroupsToFile(groups); // Pass the groups array here
+  res.status(201).json({ message: 'User added to group successfully' });
+});
+
+// Function to save groups data to groups.json
+async function saveGroupsToFile(groups) {
+try {
+    await fs.writeFile('groups.json', JSON.stringify(groups, null, 2));
+    console.log('Groups data saved to groups.json');
+} catch (error) {
+    console.error('Error saving groups data to groups.json:', error);
+    throw error; // Re-throw the error to be caught by the caller
+}
+}
+
+
+  
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
