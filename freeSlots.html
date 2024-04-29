@@ -35,6 +35,7 @@
                 if (response.ok) {
                     const freeSpaces = data.freeTime.map(space => `<p>Start: ${space.start}, End: ${space.end}, Duration (minutes): ${space.duration}</p>`).join('');
                     document.getElementById('freeSpaces').innerHTML = `<h2>Free Spaces:</h2>${freeSpaces}`;
+                    window.location.href = `groups.html?username=${encodeURIComponent(username)}`;
                 } else {
                     console.error('Error:', data.error);
                 }

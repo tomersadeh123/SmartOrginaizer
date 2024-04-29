@@ -120,7 +120,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// Route handler for retrieving events
+
 // Route handler for retrieving events
 app.get('/events', async (req, res) => {
   try {
@@ -294,15 +294,15 @@ app.post('/groups', async (req, res) => {
 // Route to add a user to a group
 app.post('/groups/:groupName/users', (req, res) => {
     const { groupName } = req.params;
-    const { username } = req.body;
+    const { email } = req.body;
     const group = groups.find(group => group.name === groupName);
     if (!group) {
         return res.status(404).json({ error: 'Group not found' });
     }
-    if (!username) {
+    if (!email) {
         return res.status(400).json({ error: 'Username is required' });
     }
-    group.users.push(username);
+    group.users.push(email);
     saveGroupsToFile();
     res.status(201).json({ message: 'User added to group successfully' });
 });
