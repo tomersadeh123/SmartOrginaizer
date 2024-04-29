@@ -1,6 +1,12 @@
 [
   {
-    "name": "tomer's group",
+    "name": "tomer's group ",
+    "users": [
+      "tomersad"
+    ]
+  },
+  {
+    "name": "dd",
     "users": []
   }
 ]
