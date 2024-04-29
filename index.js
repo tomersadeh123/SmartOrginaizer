@@ -262,33 +262,40 @@ fs.readFile('groups.json')
 
 // Route to create a group
 app.post('/groups', async (req, res) => {
-  const { groupName } = req.body;
+    const { groupName } = req.body;
 
-  // Check if groupName is provided
-  if (!groupName) {
-      return res.status(400).json({ error: 'Group name is required' });
-  }
+    // Check if groupName is provided
+    if (!groupName) {
+        return res.status(400).json({ error: 'Group name is required' });
+    }
 
-  try {
-      // Load groups array from file
-      const groupsData = await fs.readFile('groups.json');
-      const groups = JSON.parse(groupsData);
+    try {
+        // Check if groupName already exists
+        const groupExistsIndex = groups.findIndex(group => group.name === groupName);
+        if (groupExistsIndex !== -1) {
+            return res.status(400).json({ error: 'Group name already taken, please try another name' });
+        }
 
-      // Check if groupName already exists
-      const groupExistsIndex = groups.findIndex(group => group.name === groupName);
-      if (groupExistsIndex !== -1) {
-          return res.status(400).json({ error: 'Group name already taken, please try another name' });
-      }
-
-      // If groupName is unique, push the new group into groups array
-      groups.push({ name: groupName, users: [] });
-      await saveGroupsToFile(groups);
-      res.status(201).json({ message: 'Group created successfully' });
-  } catch (error) {
-      console.error('Error creating group:', error);
-      res.status(500).json({ error: 'Failed to create group' });
-  }
+        // If groupName is unique, push the new group into groups array
+        groups.push({ name: groupName, users: [] });
+        await saveGroupsToFile(groups);
+        res.status(201).json({ message: 'Group created successfully' });
+    } catch (error) {
+        console.error('Error creating group:', error);
+        res.status(500).json({ error: 'Failed to create group' });
+    }
 });
+
+async function saveGroupsToFile(groups) {
+    try {
+        await fs.writeFile('groups.json', JSON.stringify(groups, null, 2));
+        console.log('Groups data saved to groups.json');
+    } catch (error) {
+        console.error('Error saving groups data to groups.json:', error);
+        throw error; // Re-throw the error to be caught by the caller
+    }
+}
+
 
 
 // Route to add a user to a group
