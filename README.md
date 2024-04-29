@@ -8,4 +8,8 @@ after those run this command to start the program :
 node . or node index.js.
 afterwards you can run one of the html files and use them.
 please notice that once you have registred your credentials will be saved in a json file names users.json
-when the user is login and click on get events his events will be saved in the json file, also i have made that the freeslots will be saved for each user. i have made a groups.html that handle the groups. the user now can create a group and add users from the registered user only.
+when the user is login and click on get events his events will be saved in the json file.
+need to be done:
+1. need to handle the groups and the meeting algorithim
+2. need to make the empty slots algorithim
+
