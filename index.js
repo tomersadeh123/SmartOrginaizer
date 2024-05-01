@@ -5,6 +5,7 @@ const path = require('path');
 const { authenticate } = require('@google-cloud/local-auth');
 const { google } = require('googleapis');
 const cors = require('cors'); // Import cors
+const moment = require('moment-timezone');
 
 
 const app = express();
@@ -106,7 +107,7 @@ app.post('/register', async (req, res) => {
       username,
       email,
       password,
-      events:[]
+      events:[],
     };
     usersData.push(newUser);
 
@@ -189,6 +190,8 @@ async function listEvents(auth) {
   const events = response.data.items;
   return events;
 }
+
+const moment = require('moment-timezone');
 
 app.post('/calculate-free-time', async (req, res) => {
   try {
