@@ -7,44 +7,12 @@ const { google } = require('googleapis');
 const cors = require('cors'); // Import cors
 
 
+
 const app = express();
-const server = http.createServer((req, res) => {
-  let filePath = '.' + req.url;
-  if (filePath === './') {
-      filePath = './register.html';
-  }
+app.use(express.static(__dirname)); // Serve static files from the 'public' directory
 
-  const extname = path.extname(filePath);
-  const contentType = {
-      '.html': 'text/html',
-      '.css': 'text/css',
-      '.js': 'text/javascript',
-      '.json': 'application/json',
-      '.png': 'image/png',
-      '.jpg': 'image/jpeg',
-      '.wav': 'audio/wav',
-      '.mp3': 'audio/mpeg',
-      '.svg': 'image/svg+xml',
-      '.pdf': 'application/pdf',
-      '.doc': 'application/msword'
-  }[extname] || 'application/octet-stream';
-
-  fs.readFile(filePath, (err, content) => {
-      if (err) {
-          if (err.code === 'ENOENT') {
-              fs.readFile('./404.html', (err, content) => {
-                  res.writeHead(404, { 'Content-Type': 'text/html' });
-                  res.end(content, 'utf-8');
-              });
-          } else {
-              res.writeHead(500);
-              res.end('Server Error: ' + err.code);
-          }
-      } else {
-          res.writeHead(200, { 'Content-Type': contentType });
-          res.end(content, 'utf-8');
-      }
-  });
+app.use((req, res, next) => {
+    res.status(404).sendFile(path.join(__dirname, '404.html'));
 });
 const PORT = process.env.PORT || 3000;
 
