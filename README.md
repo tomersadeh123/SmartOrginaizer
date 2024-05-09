@@ -4,8 +4,6 @@ npm install node
 npm install express
 npm install googleapis
 npm install cors
-npm install @google-cloud/local-auth
-npm install moment-timezone
 after those run this command to start the program :
 node . or node index.js.
 afterwards you can run one of the html files and use them.

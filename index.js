@@ -22,8 +22,8 @@ app.use(cors(corsOptions));
 // ... (the rest of your code remains the same) ...
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
-const TOKEN_PATH = path.join(__dirname, 'token.json');
-const CREDENTIALS_PATH = path.join(__dirname, 'credentials.json');
+const TOKEN_PATH = path.join(process.cwd(), 'token.json');
+const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
 const USERS_DATA_PATH = path.join(__dirname, 'users.json'); // Path to store user data
 // Array to store events
 const eventsArray = [];
@@ -127,13 +127,10 @@ app.get('/events', async (req, res) => {
     const auth = await authorize();
     const events = await listEvents(auth);
 
-    // Convert events data to JSON string
-    const eventsJSON = JSON.stringify(events);
-
-    res.json({ events: eventsJSON }); // Send events data as a JSON string
+    res.json({ events }); // Send events data directly
   } catch (err) {
     console.error('Error fetching events:', err);
-    res.status(500).json({ error: 'Error fetching events' });
+    res.status(500).json({ error: 'Error fetching events', details: err.message });
   }
 });
 
