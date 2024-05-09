@@ -5,7 +5,6 @@ const path = require('path');
 const { authenticate } = require('@google-cloud/local-auth');
 const { google } = require('googleapis');
 const cors = require('cors'); // Import cors
-const moment = require('moment-timezone');
 
 
 const app = express();
@@ -139,7 +138,6 @@ app.get('/events', async (req, res) => {
 });
 
 
-
 // Route handler for user login
 app.post('/login', async (req, res) => {
   try {
@@ -160,14 +158,21 @@ app.post('/login', async (req, res) => {
     // Fetch events from API (assuming listEvents returns events data)
     try {
       const auth = await authorize();
-      events = await listEvents(auth);
+      const fetchedEvents = await listEvents(auth);
+
+      // Filter out events that are already stored for the user
+      const newEvents = fetchedEvents.filter((event) => {
+        return !usersData[userIndex].events.some((storedEvent) => {
+          return storedEvent.id === event.id; // Assuming each event has a unique ID
+        });
+      });
+
+      // Update the user's events data with the new events
+      usersData[userIndex].events.push(...newEvents);
     } catch (error) {
-      console.error('Error fetching events:', error);
+      console.error('Error fetching or processing events:', error);
       return res.status(500).json({ error: 'Error fetching events' });
     }
-
-    // Update the user's events data with the fetched events
-    usersData[userIndex].events.push(events)
 
     // Write updated user data back to the file
     await fs.writeFile(USERS_DATA_PATH, JSON.stringify(usersData, null, 2));
@@ -178,6 +183,7 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 async function listEvents(auth) {
   const calendar = google.calendar({ version: 'v3', auth });
   const response = await calendar.events.list({
