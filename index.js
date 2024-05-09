@@ -22,8 +22,8 @@ app.use(cors(corsOptions));
 // ... (the rest of your code remains the same) ...
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
-const TOKEN_PATH = path.join(process.cwd(), 'token.json');
-const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
+const TOKEN_PATH = path.join(__dirname, 'token.json');
+const CREDENTIALS_PATH = path.join(__dirname, 'credentials.json');
 const USERS_DATA_PATH = path.join(__dirname, 'users.json'); // Path to store user data
 // Array to store events
 const eventsArray = [];
