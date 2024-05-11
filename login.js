@@ -7,7 +7,7 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
     };
   
     try {
-      const response = await fetch('http://vmedu339.mtacloud.co.il/login', {
+      const response = await fetch('http://localhost:3000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -30,7 +30,7 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
   
   document.getElementById('getEventsBtn').addEventListener('click', async () => {
     try {
-      const response = await fetch('http://vmedu339.mtacloud.co.il/events');
+      const response = await fetch('http://localhost:3000/events');
       const eventData = await response.json();
       const eventsList = document.getElementById('eventsList');
       eventsList.innerHTML = ''; // Clear previous events

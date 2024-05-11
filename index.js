@@ -8,7 +8,7 @@ const cors = require('cors'); // Import cors
 
 
 const app = express();
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 3000;
 
 // CORS options
 const corsOptions = {
@@ -354,5 +354,5 @@ try {
 
   
 app.listen(PORT, () => {
-  console.log(`Server is running on http://vmedu339.mtacloud.co.il:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
