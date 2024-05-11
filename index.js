@@ -8,7 +8,7 @@ const cors = require('cors'); // Import cors
 
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 80;
 
 // CORS options
 const corsOptions = {
