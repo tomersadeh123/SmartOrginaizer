@@ -354,5 +354,5 @@ try {
 
   
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://vmedu339.mtacloud.co.il:${PORT}`);
 });
