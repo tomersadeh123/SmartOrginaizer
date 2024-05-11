@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> Login</title>
+<title>User Registration</title>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -18,7 +18,7 @@
     color: #333;
   }
 
-  #loginFormContainer {
+  #registrationFormContainer {
     max-width: 400px;
     margin: 20px auto;
     background-color: #fff;
@@ -27,11 +27,16 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 
+  #registrationForm {
+    margin-bottom: 20px;
+  }
+
   label {
     font-weight: bold;
   }
 
   input[type="text"],
+  input[type="email"],
   input[type="password"] {
     width: 100%;
     padding: 10px;
@@ -44,7 +49,7 @@
   input[type="submit"] {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #4caf50;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -53,72 +58,50 @@
   }
 
   input[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #45a049;
   }
 
-  #eventsNotice {
+  #loginQuestion {
     text-align: center;
-    margin-top: 20px;
     color: #333;
-    display: none; /* Hide the notice by default */
+    margin-top: 20px;
   }
 
-  #getEventsBtn {
-    display: block;
-    width: 200px;
-    margin: 20px auto;
-    padding: 10px;
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  #loginLink {
+    color: #007bff;
+    text-decoration: none;
+    margin-left: 5px;
   }
 
-  #getEventsBtn:hover {
-    background-color: #218838;
-  }
-
-  #eventsList {
-    max-width: 400px;
-    margin: 20px auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: none; /* Hide the events list by default */
+  #loginLink:hover {
+    text-decoration: underline;
   }
 </style>
 </head>
 <body>
 
-<h1>Login</h1>
-<p id="eventsNotice">Please click to get events before logging in</p>
+<h1>Welcome to SmartOrganizer</h1>
 
-<div id="loginFormContainer">
-  <form id="loginForm">
+<div id="registrationFormContainer">
+  <form id="registrationForm">
     <label for="username">Username:</label><br>
     <input type="text" id="username" name="username" required><br>
+    
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br>
     
     <label for="password">Password:</label><br>
     <input type="password" id="password" name="password" required><br>
     
-
-    <input type="submit" value="Login">
+    
+    <input type="submit" value="Register">
   </form>
+  
+  <p id="loginQuestion">Are you already registered? <a id="loginLink" href="login.html">Login here</a></p>
 </div>
 
-
-
-<!-- Hidden input field to store events data -->
-<input type="hidden" id="eventsData" name="eventsData">
-<button id="getEventsBtn">Get Events</button>
-
-<div id="eventsList"></div>
-
-<script src="login.js"></script>
-
+<script src="register.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 
 </body>
 </html>
