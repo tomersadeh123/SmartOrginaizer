@@ -9,7 +9,7 @@ document.getElementById('registrationForm').addEventListener('submit', async (ev
         events: []
       };
   
-      const response = await fetch('http://localhost:3000/register', {
+      const response = await fetch('http://vmedu339.mtacloud.co.il/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

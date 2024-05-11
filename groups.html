@@ -86,7 +86,7 @@
         document.getElementById('createGroupForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const groupName = document.getElementById('groupName').value;
-            fetch('http://localhost:3000/groups', {
+            fetch('http://vmedu339.mtacloud.co.il/groups', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -111,7 +111,7 @@
             event.preventDefault();
             const groupName = document.getElementById('groupNameAddUser').value;
             const username = document.getElementById('username').value;
-            fetch(`http:/localhost:3000/groups/${groupName}/users`, {
+            fetch(`http://vmedu339.mtacloud.co.il/groups/${groupName}/users`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

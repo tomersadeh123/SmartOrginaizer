@@ -7,7 +7,7 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
     };
   
     try {
-      const response = await fetch('http://localhost:3000/login', {
+      const response = await fetch('http://vmedu339.mtacloud.co.il/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -30,7 +30,7 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
   
   document.getElementById('getEventsBtn').addEventListener('click', async () => {
     try {
-      const response = await fetch('http://localhost:3000/events');
+      const response = await fetch('http://vmedu339.mtacloud.co.il/events');
       const eventData = await response.json();
       const eventsList = document.getElementById('eventsList');
       eventsList.innerHTML = ''; // Clear previous events
@@ -47,10 +47,4 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
       console.error('Error fetching events:', error);
     }
   });
-  function onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-  }
+  
