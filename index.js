@@ -5,6 +5,7 @@ const path = require('path');
 const { authenticate } = require('@google-cloud/local-auth');
 const { google } = require('googleapis');
 const cors = require('cors'); // Import cors
+const { createProxyMiddleware } = require('http-proxy-middleware'); // Import proxy middleware
 
 
 const app = express();
@@ -19,7 +20,9 @@ const corsOptions = {
 // Apply the CORS middleware
 app.use(cors(corsOptions));
 
-// ... (the rest of your code remains the same) ...
+app.use(createProxyMiddleware({ target: 'http://localhost:3000', changeOrigin: true }));
+
+
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
 const TOKEN_PATH = path.join(process.cwd(), 'token.json');
