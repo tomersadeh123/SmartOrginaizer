@@ -1,7 +1,7 @@
 document.getElementById('createGroupForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const groupName = document.getElementById('groupName').value;
-    fetch('http://localhost:3000/groups', {
+    fetch('/groups', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
