@@ -7,7 +7,7 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
     };
   
     try {
-      const response = await fetch('http://localhost:3000/login', {
+      const response = await fetch('http://localhost:3000/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -30,7 +30,7 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
   
   document.getElementById('getEventsBtn').addEventListener('click', async () => {
     try {
-      const response = await fetch('http://localhost:3000/events');
+      const response = await fetch('http://localhost:3000/events/events');
       const eventData = await response.json();
       const eventsList = document.getElementById('eventsList');
       eventsList.innerHTML = ''; // Clear previous events

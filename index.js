@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Import route files
-const userRoutes = require('./routes/userRoute');
+const userRoutes = require('./routes/userRoute.js');
 const eventRoutes = require('./routes/eventRoute.js');
 const groupRoutes = require('./routes/groupRoute.js');
 
