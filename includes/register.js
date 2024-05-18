@@ -9,17 +9,18 @@ document.getElementById('registrationForm').addEventListener('submit', async (ev
         events: []
       };
   
-      const response = await fetch('http://localhost:3000/register', {
+      const response = await fetch('http://localhost:3000/users/register', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData)
-      });
+    });
+    
   
       if (response.ok) {
         alert('User registered successfully');
-        window.location.href = 'login.html'; // Redirect to login page
+        window.location.href = 'includes/login.html'; // Redirect to login page
       } else {
         const errorData = await response.json();
         alert(`Registration failed: ${errorData.error}`);
