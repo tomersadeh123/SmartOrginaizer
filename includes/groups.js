@@ -1,7 +1,7 @@
 document.getElementById('createGroupForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const groupName = document.getElementById('groupName').value;
-    fetch('/groups', {
+    fetch('http://localhost:3000/groups/groups', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -26,7 +26,7 @@ document.getElementById('addUserForm').addEventListener('submit', function(event
     event.preventDefault();
     const groupName = document.getElementById('groupNameAddUser').value;
     const username = document.getElementById('username').value;
-    fetch(`/groups/${groupName}/users`, {
+    fetch(`http://localhost:3000/groups/groups/${groupName}/users`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
