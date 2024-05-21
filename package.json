@@ -21,6 +21,8 @@
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "googleapis": "^137.1.0",
-    "moment-timezone": "^0.5.45"
+    "moment-timezone": "^0.5.45",
+    "node": "^22.2.0",
+    "node.js": "^0.0.1-security"
   }
 }
