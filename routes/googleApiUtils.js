@@ -3,7 +3,7 @@ const path = require('path');
 const { google } = require('googleapis');
 
 // Path to your service account JSON key file
-const SERVICE_ACCOUNT_PATH = path.join(process.cwd(), 'service-account-file.json');
+const SERVICE_ACCOUNT_PATH = path.join(process.cwd(), 'credentials.json');
 
 // Scopes for accessing the Google Calendar API
 const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
