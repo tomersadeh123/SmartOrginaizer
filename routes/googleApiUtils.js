@@ -14,22 +14,28 @@ const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
  */
 async function authorize() {
     try {
+        // Load service account credentials
         const content = await fs.readFile(SERVICE_ACCOUNT_PATH);
         const credentials = JSON.parse(content);
+
+        // Create JWT client using service account credentials
         const jwtClient = new google.auth.JWT(
             credentials.client_email,
             null,
             credentials.private_key,
             SCOPES
         );
+
+        // Return the authenticated JWT client
         await jwtClient.authorize();
         console.log('Successfully authenticated using service account.');
         return jwtClient;
     } catch (err) {
-        console.error('Error authorizing using service account:', err.message);
+        console.error('Authorization error:', err.message);
         throw err;
     }
 }
+
 
 /**
  * List events from the Google Calendar API.
