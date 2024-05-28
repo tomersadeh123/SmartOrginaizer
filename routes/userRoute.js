@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs').promises;
 const path = require('path');
-const { authorize, listEvents } = require('./googleApiUtils');
+const { authorize, listEvents } = require('./googleApiUtils.js');
 
 const USERS_DATA_PATH = path.join(__dirname, '../jsonFiles/users.json');
 
