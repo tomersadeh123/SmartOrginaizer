@@ -2,7 +2,20 @@
   {
     "username": "tomersad",
     "email": "toemrsad@gmail.com",
-    "password": "jenny",
+    "password": "jennyu",
+    "events": [],
+    "freeTime": []
+  },
+  {
+    "username": "sdfsdf",
+    "email": "tttt@gmail.com",
+    "password": "efgd",
+    "events": []
+  },
+  {
+    "username": "tomersad1",
+    "email": "toemrsa1d@gmail.com",
+    "password": "jenny1",
     "events": []
   }
 ]
