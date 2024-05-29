@@ -10,31 +10,34 @@ const USERS_DATA_PATH = path.join(__dirname, '../jsonFiles/users.json');
 // Array to store events
 const eventsArray = [];
 
-
-/* event route to fetch evetns */
 router.get('/events', async (req, res) => {
-    try {
-      const auth = await authorize();
-      const fetchedEvents = await listEvents(auth);
-  
-      // Get the current date and time in the Israel/Jerusalem time zone
-      const israelTimezone = 'Asia/Jerusalem';
-      const currentDate = moment().tz(israelTimezone);
-      const startOfWeek = currentDate.clone().startOf('isoWeek');
-      const endOfWeek = startOfWeek.clone().endOf('isoWeek');
-  
-      // Filter out events that occur within the current week
-      const eventsThisWeek = fetchedEvents.filter(event => {
-        const eventTime = moment(event.start.dateTime).tz(israelTimezone);
-        return eventTime.isBetween(startOfWeek, endOfWeek, null, '[]');
-      });
-  
-      res.json({ events: eventsThisWeek });
-    } catch (err) {
-      console.error('Error fetching events:', err);
-      res.status(500).json({ error: 'Error fetching events', details: err.message });
-    }
-  });
+  try {
+    const auth = await authorize();
+    const fetchedEvents = await listEvents(auth);
+
+    // Get the current date and time in the Israel/Jerusalem time zone
+    const israelTimezone = 'Asia/Jerusalem';
+    const currentDate = moment().tz(israelTimezone);
+    const startOfNextWeek = currentDate.clone().startOf('isoWeek').add(1, 'week').startOf('day');
+    const endOfNextWeek = startOfNextWeek.clone().endOf('isoWeek').endOf('day');
+
+    // Filter out events that occur within the next week
+    const eventsNextWeek = fetchedEvents.filter(event => {
+      const eventStartTime = moment(event.start.dateTime).tz(israelTimezone);
+      const eventEndTime = moment(event.end.dateTime).tz(israelTimezone);
+      return (
+        (eventStartTime.isBetween(startOfNextWeek, endOfNextWeek, null, '[]') ||
+          eventEndTime.isBetween(startOfNextWeek, endOfNextWeek, null, '[]')) &&
+        eventEndTime.isAfter(currentDate)
+      );
+    });
+
+    res.json(eventsNextWeek);
+  } catch (err) {
+    console.error('Error fetching events:', err);
+    res.status(500).json({ error: 'Error fetching events', details: err.message });
+  }
+});
 
 
 
@@ -123,9 +126,3 @@ router.post('/calculate-free-time', async (req, res) => {
 });
 
 module.exports = router;
-
-
-
-
-
-
