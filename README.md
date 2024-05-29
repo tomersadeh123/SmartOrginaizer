@@ -1,4 +1,4 @@
-# SmartOrginaizer
+# SmartOrganizer
 to run this program you must run in the terminal of VS Code those commands :
 
 npm install node express cors moment-timezone googleapis @google-cloud/local-auth
