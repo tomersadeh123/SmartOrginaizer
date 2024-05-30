@@ -2,9 +2,79 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs').promises;
 const path = require('path');
-const { authorize, listEvents } = require('./googleApiUtils');
-
+const { authorize, listEvents } = require('./googleApiUtils.js');
 const USERS_DATA_PATH = path.join(__dirname, '../jsonFiles/users.json');
+
+//Function to read the users.json file
+async function readUsersFile() {
+  try {
+    const data = await fs.readFile(USERS_DATA_PATH, 'utf8');
+    return JSON.parse(data);
+  } catch (error) {
+    console.error('Error reading users file:', error);
+    throw error;
+  }
+}
+
+// Function to calculate the duration of a time slot in minutes
+function calculateDuration(start, end) {
+  const startTime = new Date(start);
+  const endTime = new Date(end);
+  const durationInMilliseconds = endTime.getTime() - startTime.getTime();
+  return Math.floor(durationInMilliseconds / (1000 * 60));
+}
+
+// POST /Suggestions route
+router.post('/Suggestions', async (req, res) => {
+  try {
+    const { username } = req.body;
+
+    // Read users file
+    const users = await readUsersFile();
+
+    // Find user's free time slots
+    const user = users.find(user => user.username === username);
+    const freeTimeSlots = user ? user.freeTime : [];
+
+    // Create an array to store the activity suggestions
+    let suggestions = [];
+
+    // Iterate over the free time slots
+    for (const slot of freeTimeSlots) {
+      const duration = calculateDuration(slot.start, slot.end);
+      const suggestionsForSlot = [];
+
+      // Suggest activities based on the duration
+      if (duration <= 30) {
+        suggestionsForSlot.push('Take a short walk');
+        suggestionsForSlot.push('Do some stretching exercises');
+      } else if (duration <= 60) {
+        suggestionsForSlot.push('Go for a jog or a bike ride');
+        suggestionsForSlot.push('Practice a hobby or skill');
+      } else if (duration <= 120) {
+        suggestionsForSlot.push('Watch a movie or a TV show');
+        suggestionsForSlot.push('Visit a nearby park or attraction');
+      } else {
+        suggestionsForSlot.push('Plan a day trip or an outdoor activity');
+        suggestionsForSlot.push('Attend a cultural event or exhibition');
+      }
+
+      // Push the suggestions along with the start and end times to the array
+      suggestions.push(...suggestionsForSlot.map(suggestion => ({
+        start: slot.start,
+        end: slot.end,
+        suggestion: suggestion
+      })));
+    }
+
+    // Respond with the activity suggestions
+    res.json({ suggestions });
+  } catch (error) {
+    console.error('Error generating suggestions:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 router.post('/register', async (req, res) => {
   try {
@@ -89,6 +159,7 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 
 

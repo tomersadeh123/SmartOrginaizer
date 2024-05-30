@@ -46,15 +46,6 @@ router.post('/groups', async (req, res) => {
     }
 });
 
-async function saveGroupsToFile(groups) {
-    try {
-        await fs.writeFile('jsonFiles/groups.json', JSON.stringify(groups, null, 2));
-        console.log('Groups data saved to groups.json');
-    } catch (error) {
-        console.error('Error saving groups data to groups.json:', error);
-        throw error; // Re-throw the error to be caught by the caller
-    }
-}
 
 
 

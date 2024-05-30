@@ -6,8 +6,16 @@ const cors = require('cors');
 const { google } = require('googleapis');
 
 const app = express();
-app.use(express.static(__dirname));
+
+// Serve static files from the "includes" directory
+app.use(express.static(path.join(__dirname, 'includes')));
+
+// Serve JSON files from the "jsonFiles" directory
+app.use('/jsonFiles', express.static(path.join(__dirname, 'jsonFiles')));
+
+
 app.use(express.json());
+
 const PORT = process.env.PORT || 3000;
 
 // CORS options

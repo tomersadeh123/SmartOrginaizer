@@ -1,8 +1,203 @@
 [
   {
     "username": "tomersad",
-    "email": "toemrsad@gmail.com",
+    "email": "tttt@gmail.com",
     "password": "jenny",
-    "events": []
+    "events": [
+      {
+        "kind": "calendar#event",
+        "etag": "\"3433934805744000\"",
+        "id": "6enro4efhj0coptobutqeopquj",
+        "status": "confirmed",
+        "htmlLink": "https://www.google.com/calendar/event?eid=NmVucm80ZWZoajBjb3B0b2J1dHFlb3BxdWogdG9tZXJzYWRlaDdAbQ",
+        "created": "2024-05-29T07:23:22.000Z",
+        "updated": "2024-05-29T07:23:22.872Z",
+        "creator": {
+          "email": "tomersadeh7@gmail.com",
+          "self": true
+        },
+        "organizer": {
+          "email": "tomersadeh7@gmail.com",
+          "self": true
+        },
+        "start": {
+          "dateTime": "2024-05-30T13:00:00+03:00",
+          "timeZone": "Asia/Jerusalem"
+        },
+        "end": {
+          "dateTime": "2024-05-30T17:15:00+03:00",
+          "timeZone": "Asia/Jerusalem"
+        },
+        "iCalUID": "6enro4efhj0coptobutqeopquj@google.com",
+        "sequence": 0,
+        "reminders": {
+          "useDefault": true
+        },
+        "eventType": "default"
+      },
+      {
+        "kind": "calendar#event",
+        "etag": "\"3433936095128000\"",
+        "id": "2jp70b2pk53cf470j3i9r6b8f5",
+        "status": "confirmed",
+        "htmlLink": "https://www.google.com/calendar/event?eid=MmpwNzBiMnBrNTNjZjQ3MGozaTlyNmI4ZjUgdG9tZXJzYWRlaDdAbQ",
+        "created": "2024-05-29T07:34:07.000Z",
+        "updated": "2024-05-29T07:34:07.564Z",
+        "summary": "test",
+        "creator": {
+          "email": "tomersadeh7@gmail.com",
+          "self": true
+        },
+        "organizer": {
+          "email": "tomersadeh7@gmail.com",
+          "self": true
+        },
+        "start": {
+          "dateTime": "2024-06-03T11:15:00+03:00",
+          "timeZone": "Asia/Jerusalem"
+        },
+        "end": {
+          "dateTime": "2024-06-03T19:00:00+03:00",
+          "timeZone": "Asia/Jerusalem"
+        },
+        "iCalUID": "2jp70b2pk53cf470j3i9r6b8f5@google.com",
+        "sequence": 0,
+        "reminders": {
+          "useDefault": true
+        },
+        "eventType": "default"
+      },
+      {
+        "kind": "calendar#event",
+        "etag": "\"3433936086524000\"",
+        "id": "66pjjnppeup0pk1906nd4jd3ju",
+        "status": "confirmed",
+        "htmlLink": "https://www.google.com/calendar/event?eid=NjZwampucHBldXAwcGsxOTA2bmQ0amQzanUgdG9tZXJzYWRlaDdAbQ",
+        "created": "2024-05-29T07:34:03.000Z",
+        "updated": "2024-05-29T07:34:03.262Z",
+        "summary": "dfgdfg",
+        "creator": {
+          "email": "tomersadeh7@gmail.com",
+          "self": true
+        },
+        "organizer": {
+          "email": "tomersadeh7@gmail.com",
+          "self": true
+        },
+        "start": {
+          "dateTime": "2024-06-05T10:15:00+03:00",
+          "timeZone": "Asia/Jerusalem"
+        },
+        "end": {
+          "dateTime": "2024-06-05T18:30:00+03:00",
+          "timeZone": "Asia/Jerusalem"
+        },
+        "iCalUID": "66pjjnppeup0pk1906nd4jd3ju@google.com",
+        "sequence": 0,
+        "reminders": {
+          "useDefault": true
+        },
+        "eventType": "default"
+      },
+      {
+        "kind": "calendar#event",
+        "etag": "\"3433936311222000\"",
+        "id": "1a0vjbujohmc3qh2bnpur9hn62",
+        "status": "confirmed",
+        "htmlLink": "https://www.google.com/calendar/event?eid=MWEwdmpidWpvaG1jM3FoMmJucHVyOWhuNjIgdG9tZXJzYWRlaDdAbQ",
+        "created": "2024-05-29T07:35:55.000Z",
+        "updated": "2024-05-29T07:35:55.611Z",
+        "summary": "test12132324",
+        "creator": {
+          "email": "tomersadeh7@gmail.com",
+          "self": true
+        },
+        "organizer": {
+          "email": "tomersadeh7@gmail.com",
+          "self": true
+        },
+        "start": {
+          "dateTime": "2024-06-08T10:30:00+03:00",
+          "timeZone": "Asia/Jerusalem"
+        },
+        "end": {
+          "dateTime": "2024-06-08T20:15:00+03:00",
+          "timeZone": "Asia/Jerusalem"
+        },
+        "iCalUID": "1a0vjbujohmc3qh2bnpur9hn62@google.com",
+        "sequence": 0,
+        "reminders": {
+          "useDefault": true
+        },
+        "eventType": "default"
+      }
+    ],
+    "freeTime": [
+      {
+        "start": "2024-05-30T17:15:00",
+        "end": "2024-05-30T21:00:00",
+        "duration": 225
+      },
+      {
+        "start": "2024-05-31T07:00:00",
+        "end": "2024-05-31T21:00:00",
+        "duration": 840
+      },
+      {
+        "start": "2024-06-01T07:00:00",
+        "end": "2024-06-01T21:00:00",
+        "duration": 840
+      },
+      {
+        "start": "2024-06-02T07:00:00",
+        "end": "2024-06-02T21:00:00",
+        "duration": 840
+      },
+      {
+        "start": "2024-06-03T07:00:00",
+        "end": "2024-06-03T11:15:00",
+        "duration": 255
+      },
+      {
+        "start": "2024-06-03T19:00:00",
+        "end": "2024-06-03T21:00:00",
+        "duration": 120
+      },
+      {
+        "start": "2024-06-04T07:00:00",
+        "end": "2024-06-04T21:00:00",
+        "duration": 840
+      },
+      {
+        "start": "2024-06-05T07:00:00",
+        "end": "2024-06-05T10:15:00",
+        "duration": 195
+      },
+      {
+        "start": "2024-06-05T18:30:00",
+        "end": "2024-06-05T21:00:00",
+        "duration": 150
+      },
+      {
+        "start": "2024-06-06T07:00:00",
+        "end": "2024-06-06T21:00:00",
+        "duration": 840
+      },
+      {
+        "start": "2024-06-07T07:00:00",
+        "end": "2024-06-07T21:00:00",
+        "duration": 840
+      },
+      {
+        "start": "2024-06-08T07:00:00",
+        "end": "2024-06-08T10:30:00",
+        "duration": 210
+      },
+      {
+        "start": "2024-06-08T20:15:00",
+        "end": "2024-06-08T21:00:00",
+        "duration": 45
+      }
+    ]
   }
 ]
