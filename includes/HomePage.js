@@ -1,3 +1,5 @@
+let freeSpacesData = [];
+let isFreeSpacesVisible = false;
 async function getFreeSpaces() {
     try {
       const urlParams = new URLSearchParams(window.location.search);
@@ -17,13 +19,15 @@ async function getFreeSpaces() {
         },
         body: JSON.stringify({ username })
       });
-
+  
       loadingIndicator.style.display = 'none';
-
+  
       const data = await response.json();
+  
       if (response.ok) {
         console.log('Free spaces calculated successfully.');
-        displayFreeSpaces(data);
+        freeSpacesData = data.freeTime; // Store the data for later use
+        document.getElementById('toggleFreeSpaces').style.display = 'inline'; // Show the toggle button
       } else {
         console.error('Error:', data.error);
       }
@@ -32,11 +36,11 @@ async function getFreeSpaces() {
     }
     freeSpacesCalculated = true;
   }
-
+  
   function displayFreeSpaces(freeSpaces) {
     const freeSpacesContainer = document.getElementById('free-spaces-container');
     freeSpacesContainer.innerHTML = '';
-
+  
     if (freeSpaces.length === 0) {
       freeSpacesContainer.textContent = 'No free spaces available.';
     } else {
@@ -49,25 +53,46 @@ async function getFreeSpaces() {
       freeSpacesContainer.appendChild(freeSpacesList);
     }
   }
+  
+  function toggleFreeSpacesDisplay() {
+    const freeSpacesContainer = document.getElementById('free-spaces-container');
+    const toggleButton = document.getElementById('toggleFreeSpaces');
+  
+    isFreeSpacesVisible = !isFreeSpacesVisible;
+  
+    if (isFreeSpacesVisible) {
+      displayFreeSpaces(freeSpacesData);
+      freeSpacesContainer.style.display = 'block';
+      toggleButton.textContent = 'Hide Free Spaces';
+    } else {
+      freeSpacesContainer.style.display = 'none';
+      toggleButton.textContent = 'Show Free Spaces';
+    }
+  }
+  
+  document.getElementById('toggleFreeSpaces').addEventListener('click', toggleFreeSpacesDisplay);
+  
   const createOrJoinGroupBtn = document.getElementById('createOrJoinGroup');
-const getActivitySuggestionsBtn = document.getElementById('getActivitySuggestions');
-let freeSpacesCalculated = false;
-
-createOrJoinGroupBtn.addEventListener('click', () => {
-  const confirmed = confirm('Do you want to create or join a group?');
-  if (confirmed) {
-    window.location.href = 'groups.html';
-  }
-});
-
-getActivitySuggestionsBtn.addEventListener('click', () => {
-  if (!freeSpacesCalculated) {
-    alert('Please calculate your free spaces first before getting activity suggestions.');
-  } else {
-    // Code to display activity suggestions goes here
-    console.log('Displaying activity suggestions...');
-  }
-});
+  const getActivitySuggestionsBtn = document.getElementById('getActivitySuggestions');
+  let freeSpacesCalculated = false;
+  
+  createOrJoinGroupBtn.addEventListener('click', () => {
+    const confirmed = confirm('Do you want to create or join a group?');
+    if (confirmed) {
+      window.location.href = 'groups.html';
+    }
+  });
+  
+  
+  
+  getActivitySuggestionsBtn.addEventListener('click', () => {
+    if (!freeSpacesCalculated) {
+      alert('Please calculate your free spaces first before getting activity suggestions.');
+    } else {
+      // Code to display activity suggestions goes here
+      console.log('Displaying activity suggestions...');
+    }
+  });
 // Array to store the user's free time slots
 let freeTimeSlots = [];
 
@@ -155,6 +180,41 @@ function updateSuggestions() {
 function addEvent(suggestion) {
   alert(`Event added: ${suggestion.suggestion}, Start: ${suggestion.start}, End: ${suggestion.end}`);
 }
+
+// Function to add an event to the user's calendar
+async function addEvent(suggestion) {
+  const username = getUserUsername();
+  try {
+    // Check if start and end times are included and are strings
+    if (
+      typeof suggestion.start !== 'string' ||
+      typeof suggestion.end !== 'string' ||
+      !suggestion.end.trim() // Ensure end time is not an empty string or only whitespace
+    ) {
+      throw new Error('Invalid start or end time');
+    }
+
+    const response = await fetch('http://localhost:3000/users/AddEvent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        event: suggestion
+      }),
+    });
+    if (!response.ok) {
+      throw new Error('Failed to add event');
+    }
+    const result = await response.json();
+    alert(`Event added: ${suggestion.suggestion}, Start: ${suggestion.start}, End: ${suggestion.end}`);
+  } catch (error) {
+    console.error('Error adding event:', error);
+    alert('Failed to add event');
+  }
+}
+
 
 // Event listener for the "Get Activity Suggestions" button
 document.getElementById('getActivitySuggestions').addEventListener('click', () => {

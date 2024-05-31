@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const { v4: uuidv4 } = require('uuid');
 const fs = require('fs').promises;
 const path = require('path');
-const { authorize, listEvents } = require('./googleApiUtils.js');
+const { authorize, listEvents, loadSavedCredentialsIfExist, saveCredentials, insertEvent, getUsers } = require('./googleApiUtils.js');
 const USERS_DATA_PATH = path.join(__dirname, '../jsonFiles/users.json');
 
 //Function to read the users.json file
@@ -95,15 +96,15 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ error: 'Email is already registered' });
     }
 
-    // Add new user with events
-    const newUser = {
+     // Add new user with user ID and events
+     const newUser = {
+      id: uuidv4(),  // Generate a unique ID for the user
       username,
       email,
       password,
       events: [],
     };
     usersData.push(newUser);
-
     // Write updated user data to the file
     await fs.writeFile(USERS_DATA_PATH, JSON.stringify(usersData, null, 2));
 
@@ -114,7 +115,6 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Route handler for user login
 router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -123,40 +123,73 @@ router.post('/login', async (req, res) => {
     let usersData = JSON.parse(await fs.readFile(USERS_DATA_PATH, 'utf8'));
 
     // Find the user with the provided username and password
-    const userIndex = usersData.findIndex(
+    const user = usersData.find(
       (user) => user.username === username && user.password === password
     );
-    if (userIndex === -1) {
+    if (!user) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
 
     // User is authenticated
-    // Fetch events from API (assuming listEvents returns events data)
+    let eventsFetched = false;
     try {
-      const auth = await authorize();
-      const fetchedEvents = await listEvents(auth);
+      const auth = await authorize(username);
+      if (auth) {
+        const fetchedEvents = await listEvents(auth);
 
-      // Filter out events that are already stored for the user
-      const newEvents = fetchedEvents.filter((event) => {
-        return !usersData[userIndex].events.some((storedEvent) => {
-          return storedEvent.id === event.id; // Assuming each event has a unique ID
+        // Filter out events that are already stored for the user
+        const newEvents = fetchedEvents.filter((event) => {
+          return !user.events.some((storedEvent) => {
+            return storedEvent.id === event.id; // Assuming each event has a unique ID
+          });
         });
-      });
 
-      // Update the user's events data with the new events
-      usersData[userIndex].events.push(...newEvents);
+        // Update the user's events data with the new events
+        user.events.push(...newEvents);
+        eventsFetched = true;
+      }
     } catch (error) {
       console.error('Error fetching or processing events:', error);
-      return res.status(500).json({ error: 'Error fetching events' });
     }
 
     // Write updated user data back to the file
     await fs.writeFile(USERS_DATA_PATH, JSON.stringify(usersData, null, 2));
 
-    res.status(200).json({ message: 'Login successful' });
+    if (eventsFetched) {
+      res.status(200).json({ message: 'Login successful', username: user.username });
+    } else {
+      res.status(200).json({ message: 'Login successful but events not fetched', username: user.username });
+    }
   } catch (error) {
     console.error('Error during login:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+router.post('/AddEvent', async (req, res) => {
+  const { username, event } = req.body; // Use 'username' instead of 'userId'
+  if (!username || !event) {
+    return res.status(400).send('Username and event are required');
+  }
+
+  try {
+    let auth = await authorize(username);
+    if (!auth) {
+      // Prompt user to authorize
+      auth = await authenticate({
+        scopes: SCOPES,
+        keyfilePath: CREDENTIALS_PATH,
+      });
+      if (auth.credentials) {
+        await saveCredentials(username, auth);
+      }
+    }
+
+    await insertEvent(auth, event);
+    res.status(200).send({ message: 'Event added successfully' });
+  } catch (error) {
+    console.error(`Error adding event for user ${username}:`, error.message);
+    res.status(500).send('Failed to add event');
   }
 });
 
