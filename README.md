@@ -1,7 +1,7 @@
 # SmartOrganizer
 to run this program you must run in the terminal of VS Code those commands :
 
-npm install node express cors moment-timezone googleapis @google-cloud/local-auth
+npm install node express cors moment-timezone googleapis @google-cloud/local-auth uuid
 
 after those run this command to start the program :
 node . or node index.js.
@@ -9,7 +9,6 @@ if it does not work, run this:
 cd SmartOrginaizer
 and then run this:
 node index.js
-uuid
 
 afterwards you can run one of the html files and use them.
 please notice that once you have registred your credentials will be saved in a json file names users.json
