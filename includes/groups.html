@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groups</title>
+    <link rel="stylesheet" href="../css/all.min.css"> <!-- https://fontawesome.com/ -->
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet"> <!-- Added Google Font -->
+    <link href="../css/groups.css" rel="stylesheet" />
+    <link href="../css/tooplate-style.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet" />
+</head>
+
+<body style="font-family: 'Jost', sans-serif;">
+    <header>
+        <a class="navbar-brand homeLink" href="HomePage.html">
+            <span>
+                SmartOrganizer
+            </span>
+        </a>
+    </header>
+    <div class="tm-container-fluid">
+        <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
+            <div class="tm-about-header tm-flex-center">
+                <i class="fas fa-users fa-2x"></i>
+                <h2>Your Groups</h2>
+            </div>
+            <div class="tm-about-text">
+                <div id="userGroupsContainer" class="group-list"></div>
+            </div>
+        </section>
+        
+        <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
+            <div class="tm-about-header tm-flex-center">
+                <i class="fas fa-users fa-2x"></i>
+                <h2>Create A Group</h2>
+            </div>
+            <div class="tm-about-text">
+                <p class="tm-mb-40">
+                    <form id="createGroupForm">
+                        <label for="groupName">Group Name:</label>
+                        <input type="text" id="groupName" name="groupName" required>
+                        <button type="submit">Create Group</button>
+                    </form>
+                </p>
+            </div>
+        </section>
+        
+        <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
+            <div class="tm-about-header tm-flex-center">
+                <i class="fas fa-users fa-2x"></i>
+                <h2>Add User to Group</h2>
+            </div>
+            <div class="tm-about-text">
+                <p class="tm-mb-40">
+                    <form id="addUserForm">
+                        <label for="groupIDAddUser">Group ID:</label>
+                        <input type="text" id="groupIDAddUser" name="groupID" required>
+                        <br>
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" required>
+                        <button type="submit">Add User to Group</button>
+                    </form>
+                </p>
+            </div>
+        </section>
+
+        <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded">
+            <div class="tm-about-header tm-flex-center">
+                <i class="fas fa-users fa-2x"></i>
+                <h2>Find Common Slots</h2>
+            </div>
+            <div class="tm-about-text">
+                <p class="tm-mb-40">
+                    <label for="groupIDCommonSlots">Group ID:</label>
+                    <input type="text" id="groupIDCommonSlots" name="groupID" required>
+                    <button type="button" id="calculateBtn">Calculate Common Slots</button>
+                    <div id="resultContainer"></div>
+                </p>
+            </div>
+        </section>
+        
+        <!-- Add Custom Event Form Container -->
+        <section class="tm-about tm-mb-80 tm-p-50 tm-bgcolor-2 tm-border-rounded" id="customEventFormContainer" style="display:none;">
+            <div class="tm-about-header tm-flex-center">
+                <i class="fas fa-calendar-plus fa-2x"></i>
+                <h2>Add Custom Event</h2>
+            </div>
+            <div class="tm-about-text">
+                <p class="tm-mb-40">
+                    <form id="customEventForm">
+                        <p id="selectedDate" style="color: black;"></p> <!-- displaying the date -->
+                        <label for="eventStart">Start Time:</label>
+                        <input type="time" id="eventStartTime" name="eventStartTime" required>                       
+                        <label for="eventEnd">End Time:</label>
+                        <input type="time" id="eventEndTime" name="eventEndTime" required>                       
+                        <label for="eventName">Event Name:</label>
+                        <input type="text" id="eventName" name="eventName" required>                        
+                        <button type="submit">Add Event</button>
+                        <br>
+                        <button type="button" id="cancelEventBtn">Cancel</button>
+                    </form>
+                </p>
+            </div>
+        </section>           
+    </div>
+
+    <footer class="tm-footer">
+        &copy; 2024 All Rights Reserved to SmartOrganizer
+    </footer>
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/groups.js"></script>
+
+</body>
+</html>

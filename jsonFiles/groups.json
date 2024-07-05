@@ -1,0 +1,40 @@
+[
+  {
+    "groupID": "1",
+    "name": "tomer's group ",
+    "users": [
+      "tomersad"
+    ]
+  },
+  {
+    "groupID": "2",
+    "name": "tomer's 2nd group",
+    "users": [
+      "tomersad"
+    ]
+  },
+  {
+    "groupID": "3",
+    "name": "check",
+    "users": [
+      "shahaf3",
+      "shahaf2"
+    ]
+  },
+  {
+    "groupID": "4",
+    "name": "check 2",
+    "users": [
+      "shahaf3",
+      "shahaf2",
+      "shahaf1"
+    ]
+  },
+  {
+    "groupID": "5",
+    "name": "12344",
+    "users": [
+      "shahaf3"
+    ]
+  }
+]

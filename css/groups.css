@@ -1,0 +1,87 @@
+.group-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  color: rgb(255, 255, 255);
+  align-items: center;
+}
+
+.group-item {
+  margin-bottom: 10px;
+}
+
+.toggle-button {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.toggle-button:hover {
+  background-color: #0056b3;
+}
+
+.group-info {
+  padding: 10px;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 5px;
+  display: none; /* Initially hidden */
+  color : black;
+}
+
+.group-info.hidden {
+  display: none;
+}
+
+.group-info:not(.hidden) {
+  display: block;
+}
+
+button, input[type="submit"], input[type="button"] {
+  font-family: 'Jost', sans-serif;
+}
+
+.add-google-calendar-button {
+    background-color: #007BFF;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 5px; /* Adjust margin-top as needed */
+}
+.message {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    color: #333;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+}
+
+.success-message {
+    background-color: #4CAF50;
+    color: #fff;
+    align-items: center;
+}
+
+.error-message {
+    background-color: #f44336;
+    color: #fff;
+    align-items: center;
+}

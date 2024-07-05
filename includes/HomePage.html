@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="shortcut icon" href="../images/pngwing.com.png" type="">
+
+  <title> SmartOrganizer </title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+  <!-- Owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <!-- Font Awesome style -->
+  <link href="../css/font-awesome.min.css" rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href="../css/style.css" rel="stylesheet" />
+  <!-- Responsive style -->
+  <link href="../css/responsive.css" rel="stylesheet" />
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet"> 
+</head>
+
+<body style="font-family: 'Jost', sans-serif;">
+
+  <div class="hero_area">
+    <div class="hero_bg_box">
+      <div class="bg_img_box">
+        <img src="../images/hero-bg.png" alt="background">
+      </div>
+    </div>
+
+    <!-- Header section starts -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand homeLink" href="HomePage.html">
+            <span>SmartOrganizer</span>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="#service_section">Tools</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#about_section">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#why_section">Why Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#team_section">Team</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#client_section">Reviews</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../index.html"><i class="fa fa-user" aria-hidden="true"></i> Logout</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- End header section -->
+
+    <!-- Slider section -->
+    <section class="slider_section">
+      <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="detail-box">
+                    <h1>Hi, we are <br> SmartOrganizer</h1>
+                    <p>"IN SYNC, IN SCHEDULE, IN SUCCESS"</p>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="img-box">
+                    <img src="../images/pngwing.com.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End slider section -->
+  </div>
+
+  <!-- Service section -->
+  <section class="service_section layout_padding" id="service_section">
+    <div class="service_container">
+      <div class="container">
+        <div class="heading_container heading_center">
+          <h2>Our <span>Tools</span></h2>
+          <p>Enjoy our advanced tools</p>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box">
+              <div class="img-box">
+                <img src="../images/837.png" alt="">
+              </div>
+              <div class="detail-box">
+                <h5>Get Free Spaces</h5>
+                <p>Your First Action!</p>
+                <p>Find available time slots in your Google Calendar. Free spaces will be calculated between 07:00 to 21:00, a week ahead</p>
+                <a class="service-button" onclick="getFreeSpaces()">PRESS HERE</a>
+                <button class="service-button" id="toggleFreeSpaces" style="display: none;">Show Free Spaces</button>
+                <div id="free-spaces-container" style="display: none; width: 100%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>          
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box">
+              <div class="img-box">
+                <img src="../images/481.png" alt="">
+              </div>
+              <div class="detail-box">
+                <h5>Group Actions</h5>
+                <p>Create or join a group and calculate common available times with your group members to schedule events and maximize your time together</p>
+                <a class="service-button" id="createOrJoinGroup">PRESS HERE</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box">
+              <div class="img-box">
+                <img src="../images/540.png" alt="">
+              </div>
+              <div class="detail-box">
+                <h5>Activity Suggestions</h5>
+                <p>Generate event suggestions based on your available time slots to fill your schedule with more activities and boost productivity</p>
+                <p>For each amount of free time, you'll receive tailored event suggestions to make your life easier and more organized</p>
+                <a class="service-button" id="getActivitySuggestions">PRESS HERE</a>
+                <div id="suggestionsContainer"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End service section -->
+
+  <!-- About section -->
+  <section class="about_section layout_padding" id="about_section">
+    <div class="container">
+      <div class="heading_container heading_center">
+        <h2>About <span>Us</span></h2>
+        <p>Smart Shared Schedule Management Application</p>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="img-box">
+            <img src="../images/—Pngtree—calendar icon logo 2023 date_8680937.png" alt="">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="detail-box">
+            <h3>We Are SmartOrganizer</h3>
+            <p>This application for managing shared schedules will assist users in organizing and managing all aspects of their calendars efficiently and comprehensively. The application will integrate artificial intelligence and data analysis to understand each user's patterns and preferences. It will synchronize all meetings, appointments, and tasks across various time frames—daily, weekly, and monthly.</p>
+            <p>The uniqueness of the application lies in its ability to plan the user's day optimally, taking into account their priorities, emotional state, and workload. It will feature user-friendly interfaces and allow for personalization, enabling each user to manage their time in the best possible way for them.</p>
+            <p>Initially, the system will pull relevant information from the user's Google Calendar. Based on this information, the application will offer users the best options for meetings with different groups, according to the available times of all involved users. Once all group members select the suitable times, the system will display and schedule the meeting in the calendars of those users.</p>
+            <p>Additionally, the application will analyze the user's free times and suggest ways to fill them. For example, if the system detects that the user hasn't exercised on a particular day and has a certain time slot available, it will suggest that they go for a workout during that time.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End about section -->
+
+  <!-- Why section -->
+  <section class="why_section layout_padding" id="why_section">
+    <div class="container">
+      <div class="heading_container heading_center">
+        <h2>Why Choose <span>Us</span></h2>
+      </div>
+      <div class="why_container">
+        <div class="box">
+          <div class="img-box">
+            <img src="../images/w1.png" alt="">
+          </div>
+          <div class="detail-box">
+            <h5>Expert Management</h5>
+            <p>SmartOrganizer is developed by a team of seasoned professionals in artificial intelligence, data analysis, and user experience design. With their expertise, we've created a sophisticated system that adapts to each user's unique scheduling needs, ensuring an intuitive and efficient experience.</p>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img-box">
+            <img src="../images/w2.png" alt="">
+          </div>
+          <div class="detail-box">
+            <h5>Secure Advanced Tools</h5>
+            <p>Access to advanced tools designed to enhance your efficiency and productivity. We prioritize robust security measures to protect user data, ensuring peace of mind. Our dedication to innovation and staying ahead in technology guarantees long-term competitiveness and growth. With transparent business practices, SmartOrganizer is a trusted and reliable choice for your needs.</p>
+          </div>
+        </div>
+        <div class="box">
+          <div class="img-box">
+            <img src="../images/w4.png" alt="">
+          </div>
+          <div class="detail-box">
+            <h5>Happy Customers</h5>
+            <p>SmartOrganizer delights users worldwide with its user-friendly interface, personalized features, and intelligent scheduling. With rave reviews, our responsive customer support ensures every user's satisfaction, empowering them to take control of their schedules effortlessly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End why section -->
+
+  <!-- Team section -->
+  <section class="team_section layout_padding" id="team_section">
+    <div class="container-fluid">
+      <div class="heading_container heading_center">
+        <h2>Our <span>Team</span></h2>
+      </div>
+      <div class="team_container">
+        <div class="row">
+          <div class="col-lg-3 col-sm-6">
+            <div class="box">
+              <div class="img-box">
+                <img src="../images/alon fix.jpg" class="img1" alt="">
+              </div>
+              <div class="detail-box">
+                <h5>Alon Sela</h5>
+                <p>Design</p>
+              </div>
+              <div class="social_box">
+                <a href=""><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                <a href=""><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                <a href=""><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                <a href=""><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                <a href=""><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-sm-6">
+            <div class="box">
+              <div class="img-box">
+                <img src="../images/tomer fix.jpg" class="img1" alt="">
+              </div>
+              <div class="detail-box">
+                <h5>Tomer Sadeh</h5>
+                <p>Back End</p>
+              </div>
+              <div class="social_box">
+                <a href=""><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                <a href=""><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                <a href=""><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                <a href=""><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                <a href=""><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-sm-6">
+            <div class="box">
+              <div class="img-box">
+                <img src="../images/shahaf fix.jpg" class="img1" alt="">
+              </div>
+              <div class="detail-box">
+                <h5>Shahaf Glazer</h5>
+                <p>Front End</p>
+              </div>
+              <div class="social_box">
+                <a href=""><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                <a href=""><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                <a href=""><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                <a href=""><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                <a href=""><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End team section -->
+
+  <!-- Client section -->
+  <section class="client_section layout_padding" id="client_section">
+    <div class="container">
+      <div class="heading_container heading_center psudo_white_primary mb_45">
+        <h2>What our <span>Customers</span> say</h2>
+      </div>
+      <div class="carousel-wrap">
+        <div class="owl-carousel client_owl-carousel">
+          <div class="item">
+            <div class="box">
+              <div class="detail-box">
+                <div class="client_id">
+                  <div class="client_info">
+                    <h6>John S.</h6>
+                  </div>
+                  <i class="fa fa-quote-left" aria-hidden="true"></i>
+                </div>
+                <p>"SmartOrganizer has completely transformed how I manage my time. The recommendations are spot on, helping me balance work, exercise, and personal time effortlessly. The interface is clean and intuitive, making it a joy to use every day. I can't imagine going back to my old scheduling methods!"</p>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="box">
+              <div class="detail-box">
+                <div class="client_id">
+                  <div class="client_info">
+                    <h6>Emily R.</h6>
+                  </div>
+                  <i class="fa fa-quote-left" aria-hidden="true"></i>
+                </div>
+                <p>"As a busy professional, SmartOrganizer has been a game-changer. It not only syncs all my calendars seamlessly but also suggests the best times for meetings and activities based on my availability and priorities. The personalized suggestions for filling free time are incredibly useful. Highly recommended!"</p>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="box">
+              <div class="detail-box">
+                <div class="client_id">
+                  <div class="client_info">
+                    <h6>Michael T.</h6>
+                  </div>
+                  <i class="fa fa-quote-left" aria-hidden="true"></i>
+                </div>
+                <p>"I love how SmartOrganizer integrates to understand my patterns and preferences. It's like having a personal assistant who knows exactly what I need. The synchronization across all my devices is flawless, and the app's ability to optimize my schedule has increased my productivity tremendously."</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End client section -->
+
+  <!-- Loading indicator -->
+  <div class="loading-indicator" style="display: none;">Loading...</div>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <!-- Popper.js -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="../js/bootstrap.js"></script>
+  <!-- Owl Carousel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+  <!-- Custom JS -->
+  <script src="../js/custom.js"></script>
+  <!-- Home Page JS -->
+  <script src="../js/HomePage.js"></script>
+
+  <!-- Initialize Owl Carousel -->
+  <script>
+    $(document).ready(function(){
+      $('.client_owl-carousel').owlCarousel({
+        loop: true,
+        margin: 10,
+        nav: true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          600: {
+            items: 1
+          },
+          1000: {
+            items: 1
+          }
+        }
+      });
+    });
+  </script>
+
+  <!-- Info section -->
+  <section class="info_section layout_padding2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-lg-3 info_col">
+          <div class="info_contact">
+            <h4>Address</h4>
+            <div class="contact_link_box">
+              <a href="">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <span>The Academic College of Tel Aviv-Yaffo</span>
+              </a>
+              <a href="">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+                <span>+972 123-456-789</span>
+              </a>
+              <a href="">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <span>SmartOrganizer@gmail.com</span>
+              </a>
+            </div>
+          </div>
+          <div class="info_social">
+            <a href=""><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href=""><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a href=""><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            <a href=""><i class="fa fa-instagram" aria-hidden="true"></i></a>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 info_col">
+          <div class="info_detail">
+            <h4>Info</h4>
+            <p>This app efficiently organizes shared schedules. It syncs meetings, appointments, and tasks, optimizing daily planning based on user priorities and workload. It integrates Google Calendar to suggest the best meeting times and offers activities for free time slots.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-2 mx-auto info_col">
+          <div class="info_link_box">
+            <h4>Links</h4>
+            <div class="info_links">
+              <a class="active homeLink" href="HomePage.html">Home</a>
+              <a href="#service_section">Tools</a>
+              <a href="#about_section">About</a>
+              <a href="#why_section">Why Us</a>
+              <a href="#team_section">Team</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 info_col">
+          <h4>Subscribe</h4>
+          <form>
+            <input type="email" id="email" name="email" placeholder="Enter email" required />
+            <button type="submit" class="homeLink">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End info section -->
+
+  <!-- Footer section -->
+  <section class="footer_section">
+    <div class="container">
+      <p>&copy; <span id="displayYear"></span> All Rights Reserved to SmartOrganizer</p>
+    </div>
+  </section>
+  <!-- End footer section -->
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up / Login</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="/images/pngwing.com.png">
+</head>
+<body>
+    
+    <div class="main">
+		<input type="checkbox" id="chk" aria-hidden="true">
+        <div class="signup">
+            <form id="registrationForm">
+                <label for="chk" aria-hidden="true">Sign Up</label>
+                <div class="input-container">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" name="username" placeholder="Username" required>
+                </div>
+                <div class="input-container">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                </div>
+                <div class="input-container">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                </div>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+
+		<div class="login">
+			<form id="loginForm">
+				<label for="chk" aria-hidden="true">Login</label>
+				<div class="input-container">
+					<i class="fas fa-user"></i>
+					<input type="text" id="loginUsername" name="username" placeholder="Username" required>
+				</div>
+				<div class="input-container">
+					<i class="fas fa-lock"></i>
+					<input type="password" id="loginPassword" name="password" placeholder="Password" required>
+				</div>
+				<button type="submit">Login</button>
+			</form>
+		</div>
+    </div>
+    <script src="js/register.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>
